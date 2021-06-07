@@ -3,8 +3,10 @@
 require('LoadClass.php');
 spl_autoload_register('LoadClass'); // On enregistre la fonction en autoload pour qu'elle soit appelée dès qu'on instanciera une classe non déclarée.
 
-$perso1 = new Personnage(60, 0); // 60 de force, 0 dégat
-$perso2 = new Personnage(100, 10); // 100 de force, 10 dégats
+$perso = new Personnage(Personnage::FORCE_MOYENNE);
+
+$perso1 = new Personnage(60, 0); // 60 de force, 0 dégat, valeurs passé au __construct de la class Personnage.
+$perso2 = new Personnage(100, 10); // 100 de force, 10 dégats, valeurs passé au __construct de la class Personnage.
 
 $perso1->setForce(10);
 $perso2->setForce(90);
