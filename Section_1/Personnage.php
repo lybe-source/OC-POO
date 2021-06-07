@@ -12,11 +12,14 @@ class Personnage {
     const FORCE_MOYENNE = 50;
     const FORCE_GRANDE = 80;
 
-    public function __construct($force, $degats = null) // Constructeur demandant 2 paramètres
+    // Variable statique PRIVÉE.
+    private static $_textADire = "Je suis un personnage<br />";
+
+    public function __construct($forceInitial, $degats = null) // Constructeur demandant 2 paramètres
     {
         echo "Voici le constructeur !<br />"; // Message s'affichant une fois que tout objet est créé.
-        $this->setForce($force); // Initialisation de la force.
-        $this->setDegats($degats); // Initialisation des dégats.
+        $this->setForce($forceInitial); // Initialisation de la force.
+        //$this->setDegats($degats); // Initialisation des dégats.
         $this->_experience = 1; // Intialisation de l'expérience à 1.
     }
 
@@ -31,8 +34,8 @@ class Personnage {
         $this->_experience++;
     }
 
-    public function parler() {
-        echo "Je suis un personnage";
+    public static function parler() {
+        echo self::$_textADire; // On donne le texte à dire
     }
 
     public function afficherExperience() {
@@ -47,6 +50,7 @@ class Personnage {
         if ( in_array( $force, [ self::FORCE_PETITE, self::FORCE_MOYENNE, self::FORCE_GRANDE ] ) )  {
             $this->_force = $force;
         }
+
     }
 
     // Mutateur chargé de modifier l'attribut $_degats
