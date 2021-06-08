@@ -17,12 +17,10 @@ class Personnage {
     // Variable statique PRIVÉE.
     private static $_textADire = "Je suis un personnage<br />";
 
-    public function __construct($forceInitial, $degats = null) // Constructeur demandant 2 paramètres
+    public function __construct(array $donnees) // Constructeur demandant 2 paramètres
     {
         echo "Voici le constructeur !<br />"; // Message s'affichant une fois que tout objet est créé.
-        //$this->setForce($forceInitial); // Initialisation de la force.
-        //$this->setDegats($degats); // Initialisation des dégats.
-        $this->_experience = 1; // Intialisation de l'expérience à 1.
+        $this->hydrate($donnees);
     }
 
     public function hydrate(array $donnees) {
