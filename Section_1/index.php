@@ -17,10 +17,12 @@ $perso = new Personnage([
     'forcePerso' => 5,
     'degats' => 0,
     'niveau' => 1,
-    'experience' => 0
+    'experience' => 1 // Ne peut pas être null
   ]);
   
   $db = new PDO('mysql:host=localhost;dbname=poo_section1', 'root', '');
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
+
   $manager = new PersonnagesManager($db);
       
   $manager->add($perso);
