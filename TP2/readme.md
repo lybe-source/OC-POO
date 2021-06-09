@@ -1,4 +1,4 @@
-### Cahier des charges
+# Cahier des charges
 
 Je veux que nous ayons le choix de créer un certain type de personnage qui aura certains avantages. Il ne doit pas être possible de créer un personnage « normal » (donc il devra être impossible d'instancier la classe Personnage). Comme précédemment, la classe Personnage aura la liste des colonnes de la table en guise d'attributs.
 
@@ -20,14 +20,14 @@ Comme vous le voyez, chaque personnage possède un atout. Cet atout devra être 
     Celle consistant à obtenir la date du réveil du personnage sous la forme « XX heures, YY minutes et ZZ secondes », qui s'affichera dans le cadre d'information du personnage s'il est endormi.
 
 
-# Le magicien
+### Le magicien
 Qui dit nouvelle fonctionnalité dit nouvelle méthode. Votre classe Magicien devra donc implémenter une nouvelle méthode permettant de lancer un sort. Celle-ci devra vérifier plusieurs points :
 
     La cible à ensorceler n'est pas le magicien qui lance le sort.
 
     Le magicien possède encore de la magie (l'atout n'est pas à 0).
 
-# Le guerrier
+### Le guerrier
 Ce qu'on cherche à faire ici est modifier le comportement du personnage lorsqu'il subit des dégâts. Nous allons donc modifier la méthode qui se charge d'ajouter des dégâts au personnage. Cette méthode procédera de la sorte :
 
     Elle calculera d'abord la valeur de l'atout.
