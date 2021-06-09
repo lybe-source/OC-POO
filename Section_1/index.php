@@ -12,13 +12,13 @@ spl_autoload_register('LoadClass'); // On enregistre la fonction en autoload pou
 
 //echo Compteur::getCompteur();
 
-$perso = new Personnage([
+/* $perso = new Personnage([
     'nom' => 'Victor',
     'forcePerso' => 5,
     'degats' => 0,
     'niveau' => 1,
     'experience' => 1 // Ne peut pas être null
-  ]);
+  ]); */
   
   $db = new PDO('mysql:host=localhost;dbname=poo_section1', 'root', '');
   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
