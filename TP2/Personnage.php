@@ -36,7 +36,7 @@ abstract class Personnage {
 
         // On indique au personnage qu'il doit recevoir des dégats.
         // Puis on retourne la valeur renvoyée par la méthode : self::PERSONNAGE_TUE ou self::PERSONNAGE_FRAPPE
-        return $perso->recervoirDegats();
+        return $perso->recevoirDegats();
     }
 
     public function hydrate(array $donnees) {
