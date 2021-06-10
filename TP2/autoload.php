@@ -1,13 +1,12 @@
 <?php
-// On enregistre notre autoload.
-function chargerClasse($classname)
+function chargerClasse($classe)
 {
-  require $classname.'.php';
+  require $classe . '.php';
 }
 
 spl_autoload_register('chargerClasse');
 
-session_start(); // On appelle session_start() APRÈS avoir enregistré l'autoload.
+session_start();
 
 if (isset($_GET['deconnexion']))
 {
@@ -17,7 +16,7 @@ if (isset($_GET['deconnexion']))
 }
 
 $db = new PDO('mysql:host=localhost;dbname=poo_section1', 'root', '');
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // On émet une alerte à chaque fois qu'une requête a échoué.
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 $manager = new PersonnagesManager($db);
 
@@ -28,21 +27,37 @@ if (isset($_SESSION['perso'])) // Si la session perso existe, on restaure l'obje
 
 if (isset($_POST['creer']) && isset($_POST['nom'])) // Si on a voulu créer un personnage.
 {
-  $perso = new Personnage(['nom' => $_POST['nom']]); // On crée un nouveau personnage.
+  switch ($_POST['type'])
+  {
+    case 'magicien' :
+      $perso = new Magicien(['nom' => $_POST['nom']]);
+      break;
+    
+    case 'guerrier' :
+      $perso = new Guerrier(['nom' => $_POST['nom']]);
+      break;
+    
+    default :
+      $message = 'Le type du personnage est invalide.';
+      break;
+  }
   
-  if (!$perso->nomValide())
+  if (isset($perso)) // Si le type du personnage est valide, on a créé un personnage.
   {
-    $message = 'Le nom choisi est invalide.';
-    unset($perso);
-  }
-  elseif ($manager->exists($perso->nom()))
-  {
-    $message = 'Le nom du personnage est déjà pris.';
-    unset($perso);
-  }
-  else
-  {
-    $manager->add($perso);
+    if (!$perso->nomValide())
+    {
+      $message = 'Le nom choisi est invalide.';
+      unset($perso);
+    }
+    elseif ($manager->exists($perso->nom()))
+    {
+      $message = 'Le nom du personnage est déjà pris.';
+      unset($perso);
+    }
+    else
+    {
+      $manager->add($perso);
+    }
   }
 }
 
@@ -75,7 +90,6 @@ elseif (isset($_GET['frapper'])) // Si on a cliqué sur un personnage pour le fr
     else
     {
       $persoAFrapper = $manager->get((int) $_GET['frapper']);
-      
       $retour = $perso->frapper($persoAFrapper); // On stocke dans $retour les éventuelles erreurs ou messages que renvoie la méthode frapper.
       
       switch ($retour)
@@ -99,6 +113,64 @@ elseif (isset($_GET['frapper'])) // Si on a cliqué sur un personnage pour le fr
           $manager->delete($persoAFrapper);
           
           break;
+        
+        case Personnage::PERSO_ENDORMI :
+          $message = 'Vous êtes endormi, vous ne pouvez pas frapper de personnage !';
+          break;
+      }
+    }
+  }
+}
+
+elseif (isset($_GET['ensorceler']))
+{
+  if (!isset($perso))
+  {
+    $message = 'Merci de créer un personnage ou de vous identifier.';
+  }
+  
+  else
+  {
+    // Il faut bien vérifier que le personnage est un magicien.
+    if ($perso->type() != 'magicien')
+    {
+      $message = 'Seuls les magiciens peuvent ensorceler des personnages !';
+    }
+    
+    else
+    {
+      if (!$manager->exists((int) $_GET['ensorceler']))
+      {
+        $message = 'Le personnage que vous voulez frapper n\'existe pas !';
+      }
+      
+      else
+      {
+        $persoAEnsorceler = $manager->get((int) $_GET['ensorceler']);
+        $retour = $perso->lancerUnSort($persoAEnsorceler);
+        
+        switch ($retour)
+        {
+          case Personnage::CEST_MOI :
+            $message = 'Mais... pourquoi voulez-vous vous ensorceler ???';
+            break;
+          
+          case Personnage::PERSONNAGE_ENSORCELE :
+            $message = 'Le personnage a bien été ensorcelé !';
+            
+            $manager->update($perso);
+            $manager->update($persoAEnsorceler);
+            
+            break;
+          
+          case Personnage::PAS_DE_MAGIE :
+            $message = 'Vous n\'avez pas de magie !';
+            break;
+          
+          case Personnage::PERSO_ENDORMI :
+            $message = 'Vous êtes endormi, vous ne pouvez pas lancer de sort !';
+            break;
+        }
       }
     }
   }
