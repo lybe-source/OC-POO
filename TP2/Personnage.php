@@ -17,8 +17,8 @@ abstract class Personnage {
     const PERSO_ENDORMI = 6;
 
     public function __construct(array $donnees) {
-        $this->hydrate($donnees);
-        $this->type = strtolower(static::class);
+        $this->hydrate($donnees); // Appel de la fonction hydrate avec le tableau de données, lesquelles sont les attributs du personnage
+        $this->type = strtolower(static::class); // On donne à l'attribut type la valeur en minuscule qui est le nom de la classe appelé à la création du personnage
     }
 
     public function estEndormi() {
@@ -39,11 +39,12 @@ abstract class Personnage {
         return $perso->recevoirDegats();
     }
 
+    // Méthode permettant d'hydrater les attributs de la classe
     public function hydrate(array $donnees) {
         foreach ($donnees as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = 'set' . ucfirst($key); // $method = setId($id), etc
 
-            if (method_exists($this, $method)) {
+            if (method_exists($this, $method)) { // Si la méthode existe dans la classe
                 $this->$method($value);
             }
         }
@@ -134,7 +135,7 @@ abstract class Personnage {
     }
 
     public function setNom($nom) {
-        if (is_string($nom)) {
+        if (is_string($nom)) { // Si $nom est une chaine de caractère
             $this->nom = $nom;
         }
     }

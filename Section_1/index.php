@@ -25,4 +25,4 @@ spl_autoload_register('LoadClass'); // On enregistre la fonction en autoload pou
 
   $manager = new PersonnagesManager($db);
       
-  $manager->add($perso);
+  //$manager->add($perso);
