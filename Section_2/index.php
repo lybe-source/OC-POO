@@ -43,3 +43,46 @@ echo '<br />---- Liste les attributs depuis le script global ----<br />';
 foreach ($classe as $attribut => $valeur) {
     echo '<strong>', $attribut, '</strong> => ', $valeur, '<br />';
 }
+
+echo "<br />---- Partie sur les interfaces ----<br />";
+
+echo iA::MA_CONSTANTE; // Affiche Hello !
+
+echo '<br />';
+
+echo A::MA_CONSTANTE; // Affiche Hello !
+
+echo "<br /><br />---- Iterator ----<br /><br />";
+
+$objet = new MaClass;
+echo 'Parcours de l\'objet...<br />';
+foreach ($objet as $key => $value) {
+    echo $key, ' => ', $value, '<br />';
+}
+
+
+echo "<br />---- SeekableIterator ----<br />";
+echo '<br />Remise du curseur en troisième position...<br />';
+
+$objet->seek(2);
+echo 'Élément courant : ', $objet->current(), '<br />';
+echo '<br />Affichage du troisième élément : ', $objet[2], '<br />';
+
+
+echo "<br />---- ArrayAccess ----<br />";
+
+echo '<br />Modification du troisième élément...';
+$objet[2] = 'Hello world !';
+echo 'Nouvelle valeur : ', $objet[2], '<br /><br />';
+
+echo 'Destruction du quatrième élément...<br />';
+unset($objet[3]);
+
+if (isset($objet[3])) {
+    echo '$objet[3] existe toujours... Bizarre...';
+} else {
+    echo 'Tout se passe bien, $objet[3] n\'existe plus !';
+}
+
+echo "<br /><br />---- Countable ----<br />";
+echo '<br />Maintenant, il n\'en comporte plus que ', count($objet), ' !';
