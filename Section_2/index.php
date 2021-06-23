@@ -85,4 +85,29 @@ if (isset($objet[3])) {
 }
 
 echo "<br /><br />---- Countable ----<br />";
-echo '<br />Maintenant, il n\'en comporte plus que ', count($objet), ' !';
+echo '<br />Maintenant, il n\'en comporte plus que ', count($objet), ' !<br />';
+
+
+echo '<br />---- Les exceptions ----<br />';
+$result = new LesExcecptions;
+
+// On va essayer d'effectuer les instructions situées dans ce bloc
+try {
+    echo $result->additionner(12, 3) . '<br />';
+    echo $result->additionner('azerty', 54) . '<br />';
+    echo $result->additionner(4, 8) . '<br />';
+    echo $result->additionner(15, 54, 45) . '<br />';
+} 
+// On va attraper les exceptions "Exception" s'il y en a une qui est levée
+catch (MonException $e) {
+    echo "[Exception] : " . $e . " avec le code d'erreur : " . $e->getCode();
+}
+
+// Si l'exception n'est toujours pas attrapée, alors nous allons essayer d'attraper l'exception "Exception"
+catch (Exception $e) {
+    echo '[Exception] : ' . $e->getMessage(); // La méthode __toString() nous affiche trop d'informations, nous voulons juste le message d'erreur
+}
+
+echo "<br />Fin du script<br /><br />"; // Ce message s'affiche, ça prouve bien que le script est exécuté jusqu'au bout
+
+$setErrorHandler = new MonException2();
