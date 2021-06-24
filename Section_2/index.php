@@ -111,3 +111,13 @@ catch (Exception $e) {
 echo "<br />Fin du script<br /><br />"; // Ce message s'affiche, ça prouve bien que le script est exécuté jusqu'au bout
 
 $setErrorHandler = new MonException2();
+
+
+
+echo "<br />---- Les traits ----<br />";
+$o = new MaClassTrait;
+//$o->saySomething(); // Lèvera une erreur fatale car on tente d'accéder à une méthode protégée, dans MaClassTrait ligne 6
+$o->sayWhoYouAre(); // Affichera " Je suis le trait A ! "
+echo "<br />";
+$o->saySomething(); // Affichera " Je suis le tarit A ! "
+//$o->sayWhoYouAre(); // Lèvera une erreur fatale, car l'alias créé est une méthode protégée, dans MaClassTrait ligne 8
