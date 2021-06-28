@@ -170,3 +170,62 @@ foreach ($classC->getStaticProperties() as $attr) {
     echo $attr;
 }
 // À l'écran s'affichera Hello world ! Bonjour le monde !
+
+
+// Instanciation de la classe ReflectionMethod
+// Elle demande 2 paramètre : 
+//    1 Le nom de la classe
+//    2 Le nom de la méthode
+$method = new ReflectionMethod('rA', 'hello');
+
+// La seconde façon de procéder est de récupérer la méthode de la classe grace à ReflectionClass::getMethod($name)
+// Celle-ci renvoie une instance de ReflectionMethod représentant la méthode
+$classRA = new ReflectionClass('rA');
+$method = $classRA->getMethod('hello');
+
+
+// Méthode publique, protégée, statique ou privée
+echo 'La méthode ' . $method->getName() . ' est ';
+
+if ($method->isPublic()) {
+    echo 'public';
+} elseif($method->isProtected()) {
+    echo 'protégée';
+} elseif ($method->isStatic()) {
+    echo 'statique';
+} else {
+    echo 'privée';
+}
+
+// Méthode abstraite ou finale
+if ($method->isAbstract()) {
+    echo 'abstraire';
+} elseif ($method->isFinal()) {
+    echo 'finale';
+} else {
+    echo '" normale "';
+}
+
+// Constructeur ? Destructeur ?
+// Ces méthodes permettent de savoir si la méthode est le constructeur ou le destructeur de la classe
+// Pour que la première condition renvoie vrai, il ne faut pas obligatoirement que la méthode soit nommée __construct. En effet, si la méthode a le même nom que la classe, celle-ci est considérée comme le constructeur de la classe car, sous PHP 4, c'était de cette façon que l'on implémentait le constructeur : il n'y avait jamais de __construct. Pour que les scripts développés sous PHP 4 soient aussi compatibles sous PHP 5, le constructeur peut également être implémenté de cette manière, mais il est clairement préférable d'utiliser la méthode magique créée pour cet effet.
+if ($method->isConstructor()) {
+    echo 'le constructeure';
+} elseif ($method->isDestructor()) {
+    echo 'le destructeur';
+}
+
+// Appeler la méthode sur un objet
+// Le premier argument est l'objet sur lequel on veut appeler la méthode. Viennent ensuite tous les arguments que vous voulez passer à la méthode : vous devrez donc passer autant d'arguments que la méthode appelée en exige.
+$methodObj = new ReflectionMethod('rA', 'hello');
+
+$methodObj->invoke($methodObj, 'test', 'autre test'); // On va passer que 2 arguments à notre méthode
+
+// A l'écran s'affichera donc :
+// string(4) "test" string(10) "autre test" int(1) string(13) "Hello world !"
+
+// Méthode semblable mais avec la différence est que celle-ci demandera les arguments listés dans un tableau au lieu de les lister en paramètres
+$methodObj->invokeArgs('rA', ['test', 'autre test']); // Les 2 arguments sont cette fois-ci contenus dans un tableau
+
+// Le résultat affiché est exactement le même
+
