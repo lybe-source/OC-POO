@@ -1,12 +1,14 @@
 <?php
 
+require 'autoload.php';
+spl_autoload_register('LoadClass');
+
 echo "Design patterns<br />";
 
 $o = new Observee;
-$o->attach(new Observer1); // Ajout d'un observateur
-$o->attach(new Observer2); // Ajout d'un autre observateur
+//$o->attach(new Observer1); // Ajout d'un observateur
+//$o->attach(new Observer2); // Ajout d'un autre observateur
 $o->setName('Victor'); // On modifie le nom pour voir si les classes observatrices ont bien été notifiée
-
 
 
 $o2 = new ErrorHandler; // Nous créons un nouveau gestionnaire d'erreur
