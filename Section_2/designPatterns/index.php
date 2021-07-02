@@ -12,7 +12,7 @@ $o->setName('Victor'); // On modifie le nom pour voir si les classes observatric
 $o2 = new ErrorHandler; // Nous créons un nouveau gestionnaire d'erreur
 $db = PDOFactory::getMysqlConnexion();
 
-$o2->attach(new MailSender('login@fai.tld'))
+$o2->Observee::attach(new MailSender('login@fai.tld'))
     ->attach(new BDDWriter($db));
 
 set_error_handler([$o2, 'error']); // Ce sera par la méthode error() de la classe ErrorHandler que les erreurs doivent être traitées
@@ -36,7 +36,7 @@ $mailSender = new class('login@fai.tld') implements SplObserver
   
   public function update(SplSubject $obj)
   {
-    mail($this->mail, 'Erreur détectée !', 'Une erreur a été détectée sur le site. Voici les informations de celle-ci : ' . "\n" . $obj->getFormatedError());
+    mail($this->mail, 'Erreur détectée !', 'Une erreur a été détectée sur le site. Voici les informations de celle-ci : ' . "\n" . $obj->ErrorHandler::getFormatedError());
   }
 };
 
@@ -53,14 +53,14 @@ $dbWriter = new class($db) implements SplObserver
   public function update(SplSubject $obj)
   {
     $q = $this->db->prepare('INSERT INTO erreurs SET erreur = :erreur');
-    $q->bindValue(':erreur', $obj->getFormatedError());
+    $q->bindValue(':erreur', $obj->ErrorHandler::getFormatedError());
     $q->execute();
   }
 };
 
 $o = new ErrorHandler; // Nous créons un nouveau gestionnaire d'erreur.
 
-$o->attach($mailSender)
+$o->Observee::attach($mailSender)
   ->attach($dbWriter);
 
 set_error_handler([$o, 'error']); // Ce sera par la méthode error() de la classe ErrorHandler que les erreurs doivent être traitées.
